@@ -18,6 +18,7 @@ typedef struct WinStruct{
         Window window;
         XEvent event;
         int screen;
+        GC gc;
 
         int ExitKey;
 } Win;
@@ -28,6 +29,14 @@ typedef struct {
 	int RectWidth;
 	int RectHeight;
 } DrawRectangle;
+
+void OnExpose(Win* win, void(*f)(Win* win)) {
+
+        if (win->event.type == Expose) {
+                //XFillRectangle(win->display, win->window, DefaultGC(win->display, win->screen), rect.RectX, rect.RectY, rect.RectWidth, rect.RectHeight);
+                f(win);
+        }
+}
 
 void SetWinAttributes(Win* win, int WindowX, int WindowY, int WindowWidth, int WindowHeight) {
         win->WinX = WindowX;
@@ -78,11 +87,11 @@ int CreateWindow(Win* win) {
         XMapWindow(win->display, win->window);
 
         /* event loop */
-        /*while (1) {
-                XNextEvent(win->display, &win->event);
+        //while (1) {
+        //XNextEvent(win->display, &win->event);
                 
 
-                switch (win->event.type) {
+                /*switch (win->event.type) {
                         case KeyPress: {
                                 KeySym     keysym;
                                 XKeyEvent *kevent;

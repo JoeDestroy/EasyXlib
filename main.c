@@ -5,6 +5,25 @@
 #include <X11/Xlib.h>
 #include "include/window.h"
 
+void Draw(Win* win) {
+    DrawRectangle rect;
+    rect.RectHeight = 250;
+    rect.RectWidth = 150;
+    rect.RectX = 10;
+    rect.RectY = 10;
+
+    XFillRectangle(win->display, win->window, DefaultGC(win->display, win->screen), rect.RectX, rect.RectY, rect.RectWidth, rect.RectHeight);
+}
+
+void Draw2(Win* win) {
+    DrawRectangle rect;
+    rect.RectHeight = 150;
+    rect.RectWidth = 250;
+    rect.RectX = 500;
+    rect.RectY = 500;
+    
+    XFillRectangle(win->display, win->window, DefaultGC(win->display, win->screen), rect.RectX, rect.RectY, rect.RectWidth, rect.RectHeight);
+}
 
 int main() {
     DrawRectangle rect;
@@ -21,7 +40,29 @@ int main() {
     
     SetExitKey(&win, XK_e);
 
-    while (1) {
+    while (1)
+    {
+        XNextEvent(win.display, &win.event);
+
+        OnExpose(&win, Draw);
+
+        OnExpose(&win, Draw2);
+
+        if (win.event.type == KeyPress) {
+            KeySym     keysym;
+            XKeyEvent *kevent;
+            char       buffer[1];
+            
+            kevent = (XKeyEvent *) &win.event;
+            if (   (XLookupString((XKeyEvent *)&win.event,buffer,1,&keysym,NULL) == 1) && (keysym == (KeySym)win.ExitKey) ) {
+                    DestroyWindow(&win);
+                    exit(0);
+            }
+        }
+    }
+    
+
+    /*while (1) {
                 XNextEvent(win.display, &win.event);
                 
 
@@ -30,8 +71,7 @@ int main() {
                                 KeySym     keysym;
                                 XKeyEvent *kevent;
                                 char       buffer[1];
-                                /* It is necessary to convert the keycode to a
-                                * keysym before checking if it is an escape */
+                                
                                 kevent = (XKeyEvent *) &win.event;
                                 if (   (XLookupString((XKeyEvent *)&win.event,buffer,1,&keysym,NULL) == 1) && (keysym == (KeySym)win.ExitKey) )
                                         DestroyWindow(&win);
@@ -46,5 +86,5 @@ int main() {
                         case Expose:
                                 XFillRectangle(win.display, win.window, DefaultGC(win.display, win.screen), rect.RectX, rect.RectY, rect.RectWidth, rect.RectHeight);
                 }
-        }
+    }*/
 }

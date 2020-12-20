@@ -14,6 +14,7 @@ typedef struct WinStruct{
         Window window;
         XEvent event;
         int screen;
+        GC gc;
 
         int ExitKey;
 } Win;
@@ -24,6 +25,8 @@ typedef struct {
 	int RectWidth;
 	int RectHeight;
 } DrawRectangle;
+
+void OnExpose(Win* win, void(*f)());
 
 void SetExitKey(Win* win, int KeyHex);
 
