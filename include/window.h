@@ -15,16 +15,10 @@ typedef struct WinStruct{
         XEvent event;
         int screen;
         GC gc;
+        Colormap cmap;
 
         int ExitKey;
 } Win;
-
-typedef struct {
-	int RectX;
-	int RectY;
-	int RectWidth;
-	int RectHeight;
-} DrawRectangle;
 
 void GetRelativeCursorPosition(Win* win, int* xPos, int* yPos);
 

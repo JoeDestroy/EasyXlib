@@ -1,8 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
+#pragma once
 
-#include <X11/Xlib.h>
-#include "include/window.h"
+#include "window.h"
 
 typedef struct {
     int RectX;

@@ -19,16 +19,11 @@ typedef struct WinStruct{
         XEvent event;
         int screen;
         GC gc;
+        Colormap cmap;
 
         int ExitKey;
 } Win;
 
-typedef struct {
-	int RectX;
-	int RectY;
-	int RectWidth;
-	int RectHeight;
-} DrawRectangle;
 
 void OnExpose(Win* win, void(*f)(Win* win)) {
 
@@ -90,12 +85,6 @@ void DestroyWindow(Win* win) {
 
 // Create a X11 window
 int CreateWindow(Win* win) {
-	DrawRectangle rect;
-
-	rect.RectX = 20;
-	rect.RectY = 20;
-	rect.RectWidth = 500;
-	rect.RectHeight = 500;
 
         /* open connection with the server */
         win->display = XOpenDisplay(NULL);

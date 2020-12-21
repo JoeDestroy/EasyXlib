@@ -3,20 +3,25 @@
 
 #include <X11/keysym.h>
 #include <X11/Xlib.h>
+
+#include "include/shapes.h"
 #include "include/window.h"
 
 void Draw(Win* win) {
-    DrawRectangle rect;
+    Rectangle rect;
     rect.RectHeight = 250;
     rect.RectWidth = 150;
     rect.RectX = 10;
     rect.RectY = 10;
 
+    int mouseX;
+    int mouseY;
+
     XFillRectangle(win->display, win->window, DefaultGC(win->display, win->screen), rect.RectX, rect.RectY, rect.RectWidth, rect.RectHeight);
 }
 
 int main() {
-    DrawRectangle rect;
+    Rectangle rect;
     Win win;
 
     rect.RectHeight = 50;
