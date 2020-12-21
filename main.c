@@ -15,16 +15,6 @@ void Draw(Win* win) {
     XFillRectangle(win->display, win->window, DefaultGC(win->display, win->screen), rect.RectX, rect.RectY, rect.RectWidth, rect.RectHeight);
 }
 
-void Draw2(Win* win) {
-    DrawRectangle rect;
-    rect.RectHeight = 150;
-    rect.RectWidth = 250;
-    rect.RectX = 500;
-    rect.RectY = 500;
-    
-    XFillRectangle(win->display, win->window, DefaultGC(win->display, win->screen), rect.RectX, rect.RectY, rect.RectWidth, rect.RectHeight);
-}
-
 int main() {
     DrawRectangle rect;
     Win win;
@@ -33,6 +23,10 @@ int main() {
     rect.RectWidth =  100;
     rect.RectX =      50;
     rect.RectY =      50;
+
+    int mouseX, mouseY;
+
+    GetCursorPosition(&win, &mouseX, &mouseY);
 
     SetWinAttributes(&win, 10, 10, 600, 300);
 
@@ -46,8 +40,6 @@ int main() {
 
         OnExpose(&win, Draw);
 
-        OnExpose(&win, Draw2);
-
         if (win.event.type == KeyPress) {
             KeySym     keysym;
             XKeyEvent *kevent;
@@ -60,31 +52,4 @@ int main() {
             }
         }
     }
-    
-
-    /*while (1) {
-                XNextEvent(win.display, &win.event);
-                
-
-                switch (win.event.type) {
-                        case KeyPress: {
-                                KeySym     keysym;
-                                XKeyEvent *kevent;
-                                char       buffer[1];
-                                
-                                kevent = (XKeyEvent *) &win.event;
-                                if (   (XLookupString((XKeyEvent *)&win.event,buffer,1,&keysym,NULL) == 1) && (keysym == (KeySym)win.ExitKey) )
-                                        DestroyWindow(&win);
-                                        exit(0);
-                                
-                                break;
-                        }
-			            case LeaveNotify:
-                        	    XDestroyWindow(win.display, win.window);
-				                XCloseDisplay(win.display);
-
-                        case Expose:
-                                XFillRectangle(win.display, win.window, DefaultGC(win.display, win.screen), rect.RectX, rect.RectY, rect.RectWidth, rect.RectHeight);
-                }
-    }*/
 }

@@ -38,6 +38,7 @@ void OnExpose(Win* win, void(*f)(Win* win)) {
         }
 }
 
+// Function to set attributes of a X11 window
 void SetWinAttributes(Win* win, int WindowX, int WindowY, int WindowWidth, int WindowHeight) {
         win->WinX = WindowX;
         win->WinY = WindowY;
@@ -46,15 +47,32 @@ void SetWinAttributes(Win* win, int WindowX, int WindowY, int WindowWidth, int W
         win->WinBorder = 1;
 }
 
+// TODO: Fix segmentation fault caused by this function
+void GetCursorPosition(Win* win, int* xPos, int* yPos) {
+        Window windowReturned;
+        int rootX, rootY;
+        int winX, winY;
+        unsigned int maskReturn;
+        Bool result;
+
+        result = XQueryPointer(win->display, win->window, &windowReturned, &windowReturned, &rootX, &rootY, &winX, &winY, &maskReturn);
+
+        *xPos = rootX;
+        *yPos = rootY;
+}
+
+// Set the key which, when pressed closes the program
 void SetExitKey(Win* win, int KeyHex) {
         win->ExitKey = KeyHex;
 }
 
+// Self-Explanatory, DESTROY window
 void DestroyWindow(Win* win) {
         XDestroyWindow(win->display, win->window);
         XCloseDisplay(win->display);
 }
 
+// Create a X11 window
 int CreateWindow(Win* win) {
 	DrawRectangle rect;
 
