@@ -47,18 +47,34 @@ void SetWinAttributes(Win* win, int WindowX, int WindowY, int WindowWidth, int W
         win->WinBorder = 1;
 }
 
-// TODO: Fix segmentation fault caused by this function
-void GetCursorPosition(Win* win, int* xPos, int* yPos) {
+// Return the mouse position relative to the window position
+void GetRelativeCursorPosition(Win* win, int* xPos, int* yPos){
         Window windowReturned;
         int rootX, rootY;
         int winX, winY;
         unsigned int maskReturn;
         Bool result;
 
-        result = XQueryPointer(win->display, win->window, &windowReturned, &windowReturned, &rootX, &rootY, &winX, &winY, &maskReturn);
+        if (win->event.type == MotionNotify) {
+                result = XQueryPointer(win->display, win->window, &windowReturned, &windowReturned, &rootX, &rootY, &winX, &winY, &maskReturn);
+                *xPos = winX;
+                *yPos = winY;
+        }
+}
 
-        *xPos = rootX;
-        *yPos = rootY;
+// Return the mouse position on screen
+void GetCursorPosition(Win* win, int* xPos, int* yPos){
+        Window windowReturned;
+        int rootX, rootY;
+        int winX, winY;
+        unsigned int maskReturn;
+        Bool result;
+
+        if (win->event.type == MotionNotify) {
+                result = XQueryPointer(win->display, win->window, &windowReturned, &windowReturned, &rootX, &rootY, &winX, &winY, &maskReturn);
+                *xPos = rootX;
+                *yPos = rootY;
+        }
 }
 
 // Set the key which, when pressed closes the program
@@ -99,35 +115,10 @@ int CreateWindow(Win* win) {
         XSetWMProtocols(win->display, win->window, &del_window, 1);
 
         /* select kind of events we are interested in */
-        XSelectInput(win->display, win->window, ExposureMask | KeyPressMask);
+        XSelectInput(win->display, win->window, ExposureMask | KeyPressMask | PointerMotionMask);
 
         /* display the window */
         XMapWindow(win->display, win->window);
-
-        /* event loop */
-        //while (1) {
-        //XNextEvent(win->display, &win->event);
-                
-
-                /*switch (win->event.type) {
-                        case KeyPress: {
-                                KeySym     keysym;
-                                XKeyEvent *kevent;
-                                char       buffer[1];
-                                
-                                kevent = (XKeyEvent *) &win->event;
-                                if (   (XLookupString((XKeyEvent *)&win->event,buffer,1,&keysym,NULL) == 1) && (keysym == (KeySym)XK_A) )
-                                        exit(0);
-                                        break;
-                        }
-			case LeaveNotify:
-                        	XDestroyWindow(win->display, win->window);
-				XCloseDisplay(win->display);
-
-                        case Expose:
-                                XFillRectangle(win->display, win->window, DefaultGC(win->display, win->screen), rect.RectX, rect.RectY, rect.RectWidth, rect.RectHeight);
-                }
-        }*/
 
         return 0;
 }

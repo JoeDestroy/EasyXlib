@@ -1,5 +1,5 @@
-#include <X11/Xlib.h>
 #pragma once
+#include <X11/Xlib.h>
 
 typedef struct WinStruct{
         // Window Attributes
@@ -25,6 +25,8 @@ typedef struct {
 	int RectWidth;
 	int RectHeight;
 } DrawRectangle;
+
+void GetRelativeCursorPosition(Win* win, int* xPos, int* yPos);
 
 void GetCursorPosition(Win* win, int* xPos, int* yPos);
 

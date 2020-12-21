@@ -26,13 +26,11 @@ int main() {
 
     int mouseX, mouseY;
 
-    GetCursorPosition(&win, &mouseX, &mouseY);
-
-    SetWinAttributes(&win, 10, 10, 600, 300);
+    SetWinAttributes(&win, 10, 10, 1920, 1080);
 
     CreateWindow(&win);
     
-    SetExitKey(&win, XK_e);
+    SetExitKey(&win, XK_Escape);
 
     while (1)
     {
@@ -51,5 +49,8 @@ int main() {
                     exit(0);
             }
         }
+
+        GetRelativeCursorPosition(&win, &mouseX, &mouseY);
+        printf("X %d, Y %d\n", mouseX, mouseY);
     }
 }
