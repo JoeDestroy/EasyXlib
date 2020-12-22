@@ -30,6 +30,8 @@ void SetExitKey(Win* win, int KeyHex);
 
 void DestroyWindow(Win* win);
 
+void CreateGC(Win* win);
+
 int CreateWindow(Win* win);
 
 void SetWinAttributes(Win* win, int WindowX, int WindowY, int WindowWidth, int WindowHeight);

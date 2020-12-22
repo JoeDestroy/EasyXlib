@@ -9,33 +9,31 @@
 
 void Draw(Win* win) {
     Rectangle rect;
-    rect.RectHeight = 250;
-    rect.RectWidth = 150;
-    rect.RectX = 10;
-    rect.RectY = 10;
+    SetRectangleAttributes(&rect, 20, 20, 50, 50);
 
     int mouseX;
     int mouseY;
+    GetRelativeCursorPosition(win, &mouseX, &mouseY);
 
-    XFillRectangle(win->display, win->window, DefaultGC(win->display, win->screen), rect.RectX, rect.RectY, rect.RectWidth, rect.RectHeight);
+    SetColor(win, 0x888888);
+
+    DrawRectangle(win, &rect);
 }
 
 int main() {
-    Rectangle rect;
     Win win;
-
-    rect.RectHeight = 50;
-    rect.RectWidth =  100;
-    rect.RectX =      50;
-    rect.RectY =      50;
 
     int mouseX, mouseY;
 
     SetWinAttributes(&win, 10, 10, 1920, 1080);
 
     CreateWindow(&win);
+
+    CreateGC(&win);
     
     SetExitKey(&win, XK_Escape);
+
+    XSync(win.display, False);
 
     while (1)
     {

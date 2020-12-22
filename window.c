@@ -83,6 +83,33 @@ void DestroyWindow(Win* win) {
         XCloseDisplay(win->display);
 }
 
+void CreateGC(Win* win) {
+        unsigned long ValueMask = 0;
+
+        XGCValues Values;
+        unsigned int LineWidth = 2;
+        int LineStyle = LineSolid;
+        int CapStyle = CapButt;
+        int JoinStyle = JoinBevel;
+        int ScreenNum = DefaultScreen(win->display);
+
+        win->gc = XCreateGC(win->display, win->window, ValueMask, &Values);
+
+        XSetForeground(win->display, win->gc, BlackPixel(win->display, DefaultScreen(win->display)));
+        XSetBackground(win->display, win->gc, WhitePixel(win->display, DefaultScreen(win->display)));
+
+        XSetLineAttributes(
+                win->display,
+                win->gc,
+                LineWidth,
+                LineStyle,
+                CapStyle,
+                JoinStyle
+        );
+
+        XSetFillStyle(win->display, win->gc, FillSolid);
+}
+
 // Create a X11 window
 int CreateWindow(Win* win) {
 
