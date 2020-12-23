@@ -17,6 +17,10 @@ typedef struct {
 	int RectHeight;
 } Rectangle;
 
+typedef struct {
+
+} Triangle;
+
 RGB Hex2Rgb(int HexValue) {
 	RGB ReturnColor;
     

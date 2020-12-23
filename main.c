@@ -6,22 +6,33 @@
 
 #include "include/shapes.h"
 #include "include/window.h"
+#include "include/button.h"
 
-void Draw(Win* win) {
-    Rectangle rect;
-    SetRectangleAttributes(&rect, 20, 20, 50, 50);
+void Draw(Win* win, Rectangle rect) {
+    //SetRectangleAttributes(&rect, 0, 0, 100, 100);
 
     int mouseX;
     int mouseY;
     GetRelativeCursorPosition(win, &mouseX, &mouseY);
 
-    SetColor(win, 0x888888);
+    if(mouseX < 100 && mouseY < 100) {
+        SetColor(win, 0x888888);
 
-    DrawRectangle(win, &rect);
+        DrawRectangle(win, &rect);
+    } else {
+        SetColor(win, 0xBBBBBB);
+
+        DrawRectangle(win, &rect);
+    }
 }
 
 int main() {
     Win win;
+    Button button;
+    button.ButtonX = 20;
+    button.ButtonY = 20;
+    button.ButtonWidth = 100;
+    button.ButtonHeight = 100;
 
     int mouseX, mouseY;
 
@@ -53,7 +64,6 @@ int main() {
             }
         }
 
-        GetRelativeCursorPosition(&win, &mouseX, &mouseY);
-        printf("X %d, Y %d\n", mouseX, mouseY);
+        AddButton(&win, button);
     }
 }
