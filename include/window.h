@@ -20,9 +20,6 @@ typedef struct WinStruct{
         int ExitKey;
 } Win;
 
-void GetRelativeCursorPosition(Win* win, int* xPos, int* yPos);
-
-void GetCursorPosition(Win* win, int* xPos, int* yPos);
 
 void OnExpose(Win* win, void(*f)());
 

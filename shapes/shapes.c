@@ -2,13 +2,8 @@
 #include <stdlib.h>
 
 #include <X11/Xlib.h>
-#include "include/window.h"
-
-typedef struct {
-	int red;
-	int green;
-	int blue;
-} RGB;
+#include "../include/window.h"
+#include "../include/utils.h"
 
 typedef struct {
     int RectX;
@@ -21,15 +16,6 @@ typedef struct {
 
 } Triangle;
 
-RGB Hex2Rgb(int HexValue) {
-	RGB ReturnColor;
-    
-	ReturnColor.red = ((HexValue >> 16) & 0xFF) / 255.0 * 65535.0;
-	ReturnColor.green = ((HexValue >> 8) & 0xFF) / 255.0 * 65535.0;
-	ReturnColor.blue = ((HexValue) & 0xFF) / 255.0  * 65535.0;
-	
-	return ReturnColor;
-}
 
 void DrawRectangle(Win* win, Rectangle* rect) {
 	XFillRectangle(win->display, win->window, win->gc, rect->RectX, rect->RectY, rect->RectWidth, rect->RectHeight);

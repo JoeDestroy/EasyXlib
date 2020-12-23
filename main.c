@@ -7,6 +7,7 @@
 #include "include/shapes.h"
 #include "include/window.h"
 #include "include/button.h"
+#include "include/utils.h"
 
 void Draw(Win* win, Rectangle rect) {
     //SetRectangleAttributes(&rect, 0, 0, 100, 100);

@@ -42,36 +42,6 @@ void SetWinAttributes(Win* win, int WindowX, int WindowY, int WindowWidth, int W
         win->WinBorder = 1;
 }
 
-// Return the mouse position relative to the window position
-void GetRelativeCursorPosition(Win* win, int* xPos, int* yPos){
-        Window windowReturned;
-        int rootX, rootY;
-        int winX, winY;
-        unsigned int maskReturn;
-        Bool result;
-
-        if (win->event.type == MotionNotify) {
-                result = XQueryPointer(win->display, win->window, &windowReturned, &windowReturned, &rootX, &rootY, &winX, &winY, &maskReturn);
-                *xPos = winX;
-                *yPos = winY;
-        }
-}
-
-// Return the mouse position on screen
-void GetCursorPosition(Win* win, int* xPos, int* yPos){
-        Window windowReturned;
-        int rootX, rootY;
-        int winX, winY;
-        unsigned int maskReturn;
-        Bool result;
-
-        if (win->event.type == MotionNotify) {
-                result = XQueryPointer(win->display, win->window, &windowReturned, &windowReturned, &rootX, &rootY, &winX, &winY, &maskReturn);
-                *xPos = rootX;
-                *yPos = rootY;
-        }
-}
-
 // Set the key which, when pressed closes the program
 void SetExitKey(Win* win, int KeyHex) {
         win->ExitKey = KeyHex;
@@ -110,19 +80,6 @@ void CreateGC(Win* win) {
         XSetFillStyle(win->display, win->gc, FillSolid);
 }
 
-int CompareKeys(Win* win, int Key) {
-        if (win->event.type == KeyPress) {
-            KeySym     keysym;
-            XKeyEvent *kevent;
-            char       buffer[1];
-            
-            kevent = (XKeyEvent *) &win->event;
-            if (   (XLookupString((XKeyEvent *)&win->event,buffer,1,&keysym,NULL) == 1) && (keysym == (KeySym)win->ExitKey) ) 
-                return 1;
-            
-            return 0;
-        }
-}
 
 // Create a X11 window
 int CreateWindow(Win* win) {
