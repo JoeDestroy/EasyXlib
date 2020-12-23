@@ -53,14 +53,9 @@ int main() {
         OnExpose(&win, Draw);
 
         if (win.event.type == KeyPress) {
-            KeySym     keysym;
-            XKeyEvent *kevent;
-            char       buffer[1];
-            
-            kevent = (XKeyEvent *) &win.event;
-            if (   (XLookupString((XKeyEvent *)&win.event,buffer,1,&keysym,NULL) == 1) && (keysym == (KeySym)win.ExitKey) ) {
-                    DestroyWindow(&win);
-                    exit(0);
+            if (CompareKeys(&win, win.ExitKey)) {
+                DestroyWindow(&win);
+                exit(0);
             }
         }
 

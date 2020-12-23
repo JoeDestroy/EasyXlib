@@ -110,6 +110,20 @@ void CreateGC(Win* win) {
         XSetFillStyle(win->display, win->gc, FillSolid);
 }
 
+int CompareKeys(Win* win, int Key) {
+        if (win->event.type == KeyPress) {
+            KeySym     keysym;
+            XKeyEvent *kevent;
+            char       buffer[1];
+            
+            kevent = (XKeyEvent *) &win->event;
+            if (   (XLookupString((XKeyEvent *)&win->event,buffer,1,&keysym,NULL) == 1) && (keysym == (KeySym)win->ExitKey) ) 
+                return 1;
+            
+            return 0;
+        }
+}
+
 // Create a X11 window
 int CreateWindow(Win* win) {
 

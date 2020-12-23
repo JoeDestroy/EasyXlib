@@ -32,6 +32,8 @@ void DestroyWindow(Win* win);
 
 void CreateGC(Win* win);
 
+int CompareKeys(Win* win, int Key);
+
 int CreateWindow(Win* win);
 
 void SetWinAttributes(Win* win, int WindowX, int WindowY, int WindowWidth, int WindowHeight);
