@@ -38,8 +38,14 @@ int main() {
     Button button2;
     button2.ButtonX = 200;
     button2.ButtonY = 200;
-    button2.ButtonWidth = 100;
+    button2.ButtonWidth = 300;
     button2.ButtonHeight = 100;
+
+    Rectangle rect;
+    SetRectangleAttributes(&rect, 0, 500, 500, 250);
+
+    Rectangle rect2;
+    SetRectangleAttributes(&rect2, 600, 500, 500, 250);
 
     int mouseX, mouseY;
 
@@ -55,18 +61,20 @@ int main() {
     {
         XNextEvent(win.display, &win.event);
 
-        OnExpose(&win, Draw);
+        if (EventType(&win, Expose) || EventType(&win, MotionNotify)) {
+            AddButton(&win, button);
+            AddButton(&win, button2);
+            SetColor(&win, 0xFF0000);
+            DrawRectangle(&win, &rect);
+            SetColor(&win, 0x00FF00);
+            DrawRectangle(&win, &rect2);
+        }
 
-        if (win.event.type == KeyPress) {
-
+        if (EventType(&win, KeyPress)) {
             if (CompareKeys(&win, win.ExitKey)) {
                 DestroyWindow(&win);
                 exit(0);
             }
-        }
-
-        if (win.event.type == MotionNotify) {
-            AddButton(&win, button);
         }
 
         CheckIfUserExit(&win);

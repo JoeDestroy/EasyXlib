@@ -25,6 +25,12 @@ typedef struct WinStruct{
         int ExitKey;
 } Win;
 
+int EventType(Win* win, int Event) {
+        if (win->event.type == Event) {
+                return 1;
+        }
+        return 0;
+}
 
 void OnExpose(Win* win, void(*f)(Win* win)) {
 
