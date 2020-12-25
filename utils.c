@@ -1,8 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <X11/Xutil.h>
+#include <X11/keysym.h>
+#include <X11/Xlib.h>
+
 #include "include/window.h"
 #include "include/shapes.h"
+
 
 typedef struct {
 	int red;

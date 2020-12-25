@@ -16,6 +16,7 @@ typedef struct WinStruct{
         int screen;
         GC gc;
         Colormap cmap;
+        Atom DeleteWindow;
 
         int ExitKey;
 } Win;
@@ -26,6 +27,8 @@ void OnExpose(Win* win, void(*f)());
 void SetExitKey(Win* win, int KeyHex);
 
 void DestroyWindow(Win* win);
+
+int CheckIfUserExit(Win* win);
 
 void CreateGC(Win* win);
 

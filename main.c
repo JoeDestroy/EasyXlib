@@ -1,17 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <X11/X.h>
 #include <X11/keysym.h>
 #include <X11/Xlib.h>
 
+#include "include/utils.h"
 #include "include/shapes.h"
 #include "include/window.h"
 #include "include/button.h"
-#include "include/utils.h"
+
 
 void Draw(Win* win, Rectangle rect) {
-    //SetRectangleAttributes(&rect, 0, 0, 100, 100);
-
     int mouseX;
     int mouseY;
     GetRelativeCursorPosition(win, &mouseX, &mouseY);
@@ -35,6 +35,12 @@ int main() {
     button.ButtonWidth = 100;
     button.ButtonHeight = 100;
 
+    Button button2;
+    button2.ButtonX = 200;
+    button2.ButtonY = 200;
+    button2.ButtonWidth = 100;
+    button2.ButtonHeight = 100;
+
     int mouseX, mouseY;
 
     SetWinAttributes(&win, 10, 10, 1920, 1080);
@@ -45,8 +51,6 @@ int main() {
     
     SetExitKey(&win, XK_Escape);
 
-    XSync(win.display, False);
-
     while (1)
     {
         XNextEvent(win.display, &win.event);
@@ -54,12 +58,17 @@ int main() {
         OnExpose(&win, Draw);
 
         if (win.event.type == KeyPress) {
+
             if (CompareKeys(&win, win.ExitKey)) {
                 DestroyWindow(&win);
                 exit(0);
             }
         }
 
-        AddButton(&win, button);
+        if (win.event.type == MotionNotify) {
+            AddButton(&win, button);
+        }
+
+        CheckIfUserExit(&win);
     }
 }

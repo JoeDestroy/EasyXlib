@@ -5,6 +5,7 @@
 
 #include "../include/window.h"
 #include "../include/shapes.h"
+#include "../include/utils.h"
 
 typedef struct {
     int ButtonX;

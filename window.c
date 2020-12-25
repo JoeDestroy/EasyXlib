@@ -20,6 +20,7 @@ typedef struct WinStruct{
         int screen;
         GC gc;
         Colormap cmap;
+        Atom DeleteWindow;
 
         int ExitKey;
 } Win;
@@ -51,6 +52,15 @@ void SetExitKey(Win* win, int KeyHex) {
 void DestroyWindow(Win* win) {
         XDestroyWindow(win->display, win->window);
         XCloseDisplay(win->display);
+}
+
+int CheckIfUserExit(Win* win) {
+        if (win->event.type == ClientMessage) {
+            if (*win->event.xclient.data.l == win->DeleteWindow) {
+                DestroyWindow(win);
+                exit(0);
+            }
+        }
 }
 
 void CreateGC(Win* win) {
@@ -98,8 +108,8 @@ int CreateWindow(Win* win) {
                 win->WinBorder, BlackPixel(win->display, win->screen), WhitePixel(win->display, win->screen));
 
         /* process window close event through event handler so XNextEvent does not fail */
-        Atom del_window = XInternAtom(win->display, "WM_DELETE_WINDOW", 0);
-        XSetWMProtocols(win->display, win->window, &del_window, 1);
+        win->DeleteWindow = XInternAtom(win->display, "WM_DELETE_WINDOW", 0);
+        XSetWMProtocols(win->display, win->window, &win->DeleteWindow, 1);
 
         /* select kind of events we are interested in */
         XSelectInput(win->display, win->window, ExposureMask | KeyPressMask | PointerMotionMask);
